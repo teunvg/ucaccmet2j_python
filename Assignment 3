@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+import json
+import csv
+
+with open('precipitation.json') as stats:
+    stats_file = json.load(stats)
+    precipitation_sandiego = []
+    for line in stats_file:
+        if line['station'] == 'GHCND:US1CASD0032':
+            precipitation_sandiego.append(line['value'])
+    total_sandiego = sum(precipitation_sandiego)
+    relative_sandiego = []
+    for month in precipitation_sandiego:
+        relative_sandiego.append(month / total_sandiego)
+
+with open('precipitation.json') as stats:
+    stats_file = json.load(stats)
+    precipitation_maui = []
+    for line in stats_file:
+        if line['station'] == 'GHCND:USC00513317':
+            precipitation_maui.append(line['value'])
+    total_maui = sum(precipitation_maui)
+    relative_maui = []
+    for month in precipitation_maui:
+        relative_maui.append(month / total_maui)
+
+with open('precipitation.json') as stats:
+    stats_file = json.load(stats)
+    precipitation_cincinnati = []
+    for line in stats_file:
+        if line['station'] == 'GHCND:USW00093814':
+            precipitation_cincinnati.append(line['value'])
+    total_cincinnati = sum(precipitation_cincinnati)
+    relative_cincinnati = []
+    for month in precipitation_cincinnati:
+        relative_cincinnati.append(month / total_cincinnati)
+
+with open('precipitation.json') as stats:
+    stats_file = json.load(stats)
+    precipitation_seattle = []
+    for line in stats_file:
+        if line['station'] == 'GHCND:US1WAKG0038':
+            precipitation_seattle.append(line['value'])
+    total_seattle = sum(precipitation_seattle)
+    relative_seattle = []
+    for month in precipitation_seattle:
+        relative_seattle.append(month / total_seattle)
+
+with open('numbers.json', 'w+') as numbers:
+    json.dump(precipitation_cincinnati, numbers)
+    json.dump(precipitation_seattle, numbers)
+    json.dump(precipitation_maui, numbers)
+    json.dump(precipitation_sandiego, numbers)
+
+with open('stations.csv') as data:
+    stations = []
+    organized_stations = {}
+    for line in data:
+        line = line.strip()
+        line = line.split(',')
+        stations.append(line)
+    stations.remove(['Location', 'State', 'Station'])
+    for lists in stations:
+        location, state, station = lists
+        my_stations = {'station': station, 'state': state}
+        organized_stations[location] = my_stations
+print(relative_seattle)
+# I was able to create lists of the relative percipitation and total percipitation of each state and a dictionary with the station number and name.
+# The only thing I got stuck on was the tranfering of the percipitation data to the dictionary
